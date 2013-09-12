@@ -1,0 +1,249 @@
+{
+    archiveVersion = 1;
+    classes =     {
+    };
+    objectVersion = 45;
+    objects =     {
+        174413CBD1944250EF64D247 =         {
+            buildSettings =             {
+                "INFOPLIST_FILE" = "Resources/Info.plist";
+                "PRODUCT_NAME" = Features;
+            };
+            isa = XCBuildConfiguration;
+            name = Release;
+        };
+        19DBAFE79EC628DBF3C9BB07 =         {
+            buildActionMask = 2147483647;
+            files =             (
+                23880BBC0DFED856C479A9B6
+            );
+            isa = PBXFrameworksBuildPhase;
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        1B711E3EF3922A63861550AB =         {
+            children =             (
+                675776282E2803821EAEFB02
+            );
+            isa = PBXGroup;
+            name = "Other Sources";
+            sourceTree = "<group>";
+        };
+        23880BBC0DFED856C479A9B6 =         {
+            fileRef = 4327C171F44921AC356DB205;
+            isa = PBXBuildFile;
+        };
+        23E8BDEA276040790EB029D0 =         {
+            fileRef = CD25386008C5E0B1820F3CAC;
+            isa = PBXBuildFile;
+        };
+        2E470A52D3B55DE209FF2E25 =         {
+            children =             (
+                4327C171F44921AC356DB205
+            );
+            isa = PBXGroup;
+            name = Frameworks;
+            sourceTree = "<group>";
+        };
+        3D82E02063BA1B59C243068C =         {
+            isa = PBXFileReference;
+            lastKnownFileType = "file.xib";
+            name = en;
+            path = "en.lproj/MainWindow.xib";
+            sourceTree = "<group>";
+        };
+        4327C171F44921AC356DB205 =         {
+            isa = PBXFileReference;
+            lastKnownFileType = "wrapper.framework";
+            name = "UIKit.framework";
+            path = "System/Library/Frameworks/UIKit.framework";
+            sourceTree = SDKROOT;
+        };
+        4A09658B91A6D7348C7E5C04 =         {
+            fileRef = 675776282E2803821EAEFB02;
+            isa = PBXBuildFile;
+        };
+        4DE362D469568D3048E5E9C4 =         {
+            buildSettings =             {
+                "INFOPLIST_FILE" = "Resources/Info.plist";
+                "PRODUCT_NAME" = Features;
+            };
+            isa = XCBuildConfiguration;
+            name = Debug;
+        };
+        52562DDC7CC6F929B0DD958B =         {
+            buildConfigurationList = 8AB766A189B6D6D31B00874A;
+            buildPhases =             (
+                EB35E69B58992E61470B7102,
+                C6CB9717024FF81532095463,
+                19DBAFE79EC628DBF3C9BB07
+            );
+            isa = PBXNativeTarget;
+            name = Features;
+            productName = Features;
+            productReference = E74CB99E2C2AB9322FE29228;
+            productType = "com.apple.product-type.application";
+        };
+        52CC6945721F1763D6D43D57 =         {
+            isa = PBXFileReference;
+            lastKnownFileType = "sourcecode.c.h";
+            path = "AppDelegate.h";
+            sourceTree = "<group>";
+        };
+        675776282E2803821EAEFB02 =         {
+            isa = PBXFileReference;
+            lastKnownFileType = "sourcecode.c.objc";
+            path = "main.m";
+            sourceTree = "<group>";
+        };
+        82F36FCEEE913FCAD8B956CC =         {
+            buildConfigurations =             (
+                DCE20AA9D14191314EEDBEDA,
+                84577F5E156E14233C7A42AD
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+            isa = XCConfigurationList;
+        };
+        84577F5E156E14233C7A42AD =         {
+            buildSettings =             {
+                ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+                "CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+                "IPHONEOS_DEPLOYMENT_TARGET" = "3.2";
+                SDKROOT = iphoneos;
+            };
+            isa = XCBuildConfiguration;
+            name = Release;
+        };
+        8AB766A189B6D6D31B00874A =         {
+            buildConfigurations =             (
+                4DE362D469568D3048E5E9C4,
+                174413CBD1944250EF64D247
+            );
+            defaultConfigurationIsVisible = 0;
+            defaultConfigurationName = Release;
+            isa = XCConfigurationList;
+        };
+        98E00DB58D4D7CFB4ED6D467 =         {
+            buildConfigurationList = 82F36FCEEE913FCAD8B956CC;
+            compatibilityVersion = "Xcode 3.1";
+            hasScannedForEncodings = 1;
+            isa = PBXProject;
+            knownRegions =             (
+                English,
+                en
+            );
+            mainGroup = FB2DD2150CD41B91BC6E0707;
+            productRefGroup = D63409A8448C7F986795F6F8;
+            projectDirPath = "";
+            projectRoot = "";
+            targets =             (
+                52562DDC7CC6F929B0DD958B
+            );
+        };
+        9B48DF0278744E6B33B6C1F2 =         {
+            fileRef = C587A9F31A0360B7FCE1DFFE;
+            isa = PBXBuildFile;
+        };
+        B1CC34A307287FB41DB0B439 =         {
+            children =             (
+                C587A9F31A0360B7FCE1DFFE
+            );
+            isa = PBXGroup;
+            path = "en.lproj";
+            sourceTree = "<group>";
+        };
+        BEC1CF3BD9F311148E233E8D =         {
+            children =             (
+                CD25386008C5E0B1820F3CAC,
+                52CC6945721F1763D6D43D57
+            );
+            isa = PBXGroup;
+            path = Classes;
+            sourceTree = "<group>";
+        };
+        C587A9F31A0360B7FCE1DFFE =         {
+            children =             (
+                3D82E02063BA1B59C243068C
+            );
+            isa = PBXVariantGroup;
+            name = "MainWindow.xib";
+            path = "..";
+            sourceTree = "<group>";
+        };
+        C6CB9717024FF81532095463 =         {
+            buildActionMask = 2147483647;
+            files =             (
+                9B48DF0278744E6B33B6C1F2
+            );
+            isa = PBXResourcesBuildPhase;
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        CD25386008C5E0B1820F3CAC =         {
+            isa = PBXFileReference;
+            lastKnownFileType = "sourcecode.c.objc";
+            path = "AppDelegate.m";
+            sourceTree = "<group>";
+        };
+        D63409A8448C7F986795F6F8 =         {
+            children =             (
+                E74CB99E2C2AB9322FE29228
+            );
+            isa = PBXGroup;
+            name = Products;
+            sourceTree = "<group>";
+        };
+        DCE20AA9D14191314EEDBEDA =         {
+            buildSettings =             {
+                ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+                "CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+                "IPHONEOS_DEPLOYMENT_TARGET" = "3.2";
+                SDKROOT = iphoneos;
+            };
+            isa = XCBuildConfiguration;
+            name = Debug;
+        };
+        E74CB99E2C2AB9322FE29228 =         {
+            explicitFileType = "wrapper.application";
+            includeInIndex = NO;
+            isa = PBXFileReference;
+            path = "Features.app";
+            sourceTree = "BUILT_PRODUCTS_DIR";
+        };
+        EB35E69B58992E61470B7102 =         {
+            buildActionMask = 2147483647;
+            files =             (
+                4A09658B91A6D7348C7E5C04,
+                23E8BDEA276040790EB029D0
+            );
+            isa = PBXSourcesBuildPhase;
+            runOnlyForDeploymentPostprocessing = 0;
+        };
+        F5E7AAB35CF720F3A52974CA =         {
+            isa = PBXFileReference;
+            lastKnownFileType = "text.plist.xml";
+            path = "Info.plist";
+            sourceTree = "<group>";
+        };
+        FB2DD2150CD41B91BC6E0707 =         {
+            children =             (
+                BEC1CF3BD9F311148E233E8D,
+                1B711E3EF3922A63861550AB,
+                FC3124E804E67411F433815A,
+                2E470A52D3B55DE209FF2E25,
+                D63409A8448C7F986795F6F8
+            );
+            isa = PBXGroup;
+            sourceTree = "<group>";
+        };
+        FC3124E804E67411F433815A =         {
+            children =             (
+                F5E7AAB35CF720F3A52974CA,
+                B1CC34A307287FB41DB0B439
+            );
+            isa = PBXGroup;
+            path = Resources;
+            sourceTree = "<group>";
+        };
+    };
+    rootObject = 98E00DB58D4D7CFB4ED6D467;
+}
