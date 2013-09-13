@@ -24,11 +24,11 @@
 
 #import "CocosDenshion.h"
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 30000 || defined (__STELLA_VERSION_MAX_ALLOWED)
-#if defined (__STELLA_VERSION_MAX_ALLOWED)
-    #import <StellaMedia/AVFoundation.h>
-#else
-    #import <AVFoundation/AVFoundation.h>
-#endif
+    #if defined (__STELLA_VERSION_MAX_ALLOWED)
+        #import <StellaMedia/AVFoundation.h>
+    #else
+        #import <AVFoundation/AVFoundation.h>
+    #endif
 #else
     #import "CDXMacOSXSupport.h"
 #endif
