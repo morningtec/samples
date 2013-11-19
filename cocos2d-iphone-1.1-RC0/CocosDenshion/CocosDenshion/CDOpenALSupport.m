@@ -101,11 +101,6 @@ void * CDAllocWaveAudioData (NSString * path, ALsizei * outDataSize, ALenum * ou
                 return NULL;
         }
 
-        // SGDebugLog (@"SSSoundEngine", @"data: %@", data);
-
-        // BasicWAVEHeader       * header;
-        // header      = (BasicWAVEHeader *) [data bytes];
-
         CDWaveChunkHeader     * header;
         header      = (CDWaveChunkHeader *) [data bytes];
 
@@ -174,7 +169,7 @@ void * CDAllocWaveAudioData (NSString * path, ALsizei * outDataSize, ALenum * ou
              *outSampleRate    = formatChunk->sampleRate;
         }
 
-        return buffer;
+        return buffer; /* buffer free outside */
 }
 
 
@@ -201,19 +196,12 @@ void * CDAllocOggAudioData (NSString * path, ALsizei * outDataSize, ALenum * out
         SMOggAudioStream    * oggStream;
         oggStream           = (SMOggAudioStream *) malloc (sizeof (SMOggAudioStream));
 
-        // 
-        // alGenSources (1, & oggStream->source );
-        // alGenBuffers (2, oggStream->buffers );
-
-        //oggStream->bufferSize   = 4096*8;
-
-
         //open file        
         NSData    * data; 
         data        = [NSData dataWithContentsOfFile: path];
-        if (! data) {
-             free (oggStream);
-             return NO;
+        if (!data) {
+                 free (oggStream);
+                 return NULL;
         }
 
         int                 dataLength   = [data length];
@@ -224,10 +212,10 @@ void * CDAllocOggAudioData (NSString * path, ALsizei * outDataSize, ALenum * out
         oggStream->stream = stb_vorbis_open_memory (dataBytes, dataLength, &error, NULL);   /* WC - to handle error */
 
         if (!oggStream->stream) {
-             CDLOG (@"Load OggStream Error: 0x%x", error);               
-             [data release];
-             free (oggStream);
-             return NO;
+                 CDLOG (@"Load OggStream Error: 0x%x", error);   
+                 stb_vorbis_close (oggStream->stream);
+                 free (oggStream);
+                 return NULL;
         }
 
         CDLOG (@"Load OggStream Success");                
@@ -238,50 +226,56 @@ void * CDAllocOggAudioData (NSString * path, ALsizei * outDataSize, ALenum * out
         oggStream->bufferSize           = oggStream->totalSamplesLeft;
 
 
-        ALshort         * pcm;
-        pcm  = (ALshort *) malloc (oggStream->bufferSize * sizeof (ALshort));
+        ALshort       * pcm;
+        pcm     = (ALshort *) malloc (oggStream->bufferSize * sizeof (ALshort));
         if (pcm == NULL) {
-             return NO;
+                stb_vorbis_close (oggStream->stream);
+                free (oggStream);
+                return NULL;
         }
 
         NSUInteger      size    = 0;
         NSUInteger      result  = 0;
 
 
+        while (size < oggStream->bufferSize) {
 
-        while (size < oggStream->bufferSize){
+                 result      = 
+                 stb_vorbis_get_samples_short_interleaved (oggStream->stream, oggStream->info.channels, pcm + size, 4096 * 8);
 
-             result      = stb_vorbis_get_samples_short_interleaved (oggStream->stream, oggStream->info.channels, pcm+size, 4096*8);
-
-             if (result <= 0)        break;
-             size       += result * oggStream->info.channels;
+                 if (result <= 0)        break;
+                 size       += result * oggStream->info.channels;
         }
 
 
         if (size == 0) {
-             return NO;
+                stb_vorbis_close (oggStream->stream);
+                free (oggStream);
+                return NULL;
         }
 
         CDLOG (@"totalSamplesLeft: %d, read %d", oggStream->totalSamplesLeft, size);
-        oggStream->totalSamplesLeft     -= size;
-
+        oggStream->totalSamplesLeft -= size;
 
         if (outDataSize) {
-             *outDataSize    = size * sizeof (ALshort);
+                * outDataSize       = size * sizeof(ALshort);
         }
 
         if (outDataFormat) {
-             /* WC - assuming bits per sample == 16 */
-             *outDataFormat  = (oggStream->info.channels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+                 /* WC - assuming bits per sample == 16 */
+                *outDataFormat      = (oggStream->info.channels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
         }
 
         if (outSampleRate) {
-             *outSampleRate  = oggStream->info.sample_rate;
+                *outSampleRate      = oggStream->info.sample_rate;
         }
 
         CDLOG (@"totalSamplesLeft: %d, read %d", oggStream->totalSamplesLeft, size);
 
-        return pcm;
+        stb_vorbis_close (oggStream->stream);
+        free (oggStream);
+
+        return pcm; /* pcm free outside */
 }
 
 
@@ -290,17 +284,33 @@ void * CDGetOpenALAudioData (NSString * path, ALsizei * outDataSize, ALenum * ou
         //SGDebugLog (@"SDUtilities", @"SDGetOpenALAudioData: %@", path);
         //SGDebugLog (@"SDUtilities", @"SDGetOpenALAudioData: ext: %@", [path pathExtension]);
 
-        NSString    * fileType;
-        fileType    = [path pathExtension];
+        NSString      * filePath    = path;
+        NSString      * fullFilePath;
 
-        if ([fileType isEqualToString: @"wav"]) {
-                return CDAllocWaveAudioData (path, outDataSize, outDataFormat, outSampleRate);
-        } 
-        else if ([fileType isEqualToString: @"ogg"]) {
-                return CDAllocOggAudioData (path, outDataSize, outDataFormat, outSampleRate);
+        if (![path hasSuffix: @".wav"] && ![path hasSuffix: @".ogg"]) {
+                filePath        = [filePath stringByDeletingPathExtension];
+                filePath        = [filePath stringByAppendingPathExtension: @"ogg"];
+                fullFilePath    = [CDUtilities fullPathFromRelativePath: filePath];
+
+                if ([[NSFileManager defaultManager] fileExistsAtPath:fullFilePath] == NO) {
+                        filePath        = [filePath stringByDeletingPathExtension];
+                        filePath        = [filePath stringByAppendingPathExtension: @"wav"];
+                        fullFilePath    = [CDUtilities fullPathFromRelativePath: filePath];
+                }
+
         }
+
+        NSString    * fileType;
+        fileType    = [fullFilePath pathExtension];
+
+        if ([fileType isEqualToString: @"ogg"]) {
+                return CDAllocOggAudioData (fullFilePath, outDataSize, outDataFormat, outSampleRate);
+        }
+        else if ([fileType isEqualToString: @"wav"]) {
+                return CDAllocWaveAudioData (fullFilePath, outDataSize, outDataFormat, outSampleRate);
+        } 
         else {
-                return nil;
+                return NULL;
         }
 }
 #else

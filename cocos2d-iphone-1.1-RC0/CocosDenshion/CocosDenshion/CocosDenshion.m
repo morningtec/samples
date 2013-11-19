@@ -597,7 +597,7 @@ static BOOL _mixerRateSet = NO;
 	if (fileURL)
 	{
     #if defined (__STELLA_VERSION_MAX_ALLOWED)  && defined (__STELLA_HANDROID2)
-            data    = CDGetOpenALAudioData (path, &size, &format, &freq);
+            data    = CDGetOpenALAudioData (filePath, &size, &format, &freq);
     #else
 		data = CDGetOpenALAudioData(fileURL, &size, &format, &freq);
     #endif

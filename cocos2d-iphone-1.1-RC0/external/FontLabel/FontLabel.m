@@ -120,6 +120,8 @@
 			size.width = MIN(size.width, origSize.width);
 			// adjust the point for alignment
 			switch (self.textAlignment) {
+#if defined (__STELLA_VERSION_MAX_ALLOWED)
+#else
 				case CCTextAlignmentLeft:
 					break;
 				case CCTextAlignmentCenter:
@@ -128,8 +130,6 @@
 				case CCTextAlignmentRight:
 					point.x += origSize.width - size.width;
 					break;
-#if defined (__STELLA_VERSION_MAX_ALLOWED)
-#else
 #if __IPHONE_OS_VERSION_MAX_ALLOWED   >  __IPHONE_5_1
                 case NSTextAlignmentJustified:
                     NSLog(@"not supported alignment");
