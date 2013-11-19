@@ -80,6 +80,7 @@ void Java_com_yourcompany_features_MainHActivity_nativeCallbackMessage (JNIEnv *
 
 @synthesize window          = _window;
 @synthesize messageLabel    = _messageLabel;
+@synthesize backKeyLabel    = _backKeyLabel;
 
 - (void) applicationDidFinishLaunching: (UIApplication *) application
 { ;
@@ -118,3 +119,18 @@ void Java_com_yourcompany_features_MainHActivity_nativeCallbackMessage (JNIEnv *
 }
 
 @end
+
+
+@interface UIApplication (StellaFeatures)
+@end
+
+@implementation UIApplication (StellaFeatures)
+- (void) keyDown: (UIEvent *) event
+{
+        AppDelegate       * appDelegate     = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+        appDelegate.backKeyLabel.text       = @"BackKey Down!!!";
+}
+@end
+
+
+

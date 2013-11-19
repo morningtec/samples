@@ -8,6 +8,7 @@
 
 @property(nonatomic, retain) IBOutlet UIWindow    * window;
 @property(nonatomic, assign) IBOutlet UILabel     * messageLabel;
+@property(nonatomic, assign) IBOutlet UILabel     * backKeyLabel;
 
 - (void) applicationDidFinishLaunching: (UIApplication *) application;
 - (void) applicationWillResignActive: (UIApplication *) application;

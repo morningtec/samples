@@ -7,6 +7,21 @@ import android.widget.Toast;
 import cn.morningtec.BillingSDK.BillingCallback;
 import cn.morningtec.BillingSDK.BillingManager;
 
+import android.content.DialogInterface;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.app.AlertDialog;
+
+import android.widget.TextView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+
+import android.graphics.Color;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+
+
 public class MainHActivity extends StellaActivity
 {
         static
@@ -24,6 +39,8 @@ public class MainHActivity extends StellaActivity
 
         static MainHActivity      _sharedMainHActivity;
 
+
+
         @Override
         public void onCreate (Bundle savedInstanceState)
         {
@@ -31,6 +48,19 @@ public class MainHActivity extends StellaActivity
 
                 /* If you want get the MainView */
                 /* RelativeLayout        _mainView  = mainView; */
+
+                RelativeLayout  _mainView       = mainView;
+
+                TextView        _bannerView;
+                _bannerView                     = new TextView (this);
+
+                DisplayMetrics metrics          = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+                _mainView.addView (_bannerView, new LayoutParams (metrics.widthPixels, metrics.heightPixels/12));
+                _bannerView.setBackgroundColor (Color.parseColor("#33B5E5"));
+                _bannerView.setText("Hello StellaSDK2");
+                _bannerView.setTextSize (TypedValue.COMPLEX_UNIT_PX, 64);
 
                 _sharedMainHActivity     = this;
         }
@@ -75,6 +105,24 @@ public class MainHActivity extends StellaActivity
                 }); 
         }
 
+
+        public void backButtonPressed ()
+        {
+                new AlertDialog.Builder (MainHActivity.this)
+                        .setTitle ("StellaSDK Features Demo")
+                        .setMessage ("Exit the Demo?")
+                        .setCancelable (false)
+                        .setPositiveButton ("YES", new DialogInterface.OnClickListener () {
+                                public void onClick (DialogInterface dialog, int id) {
+                                        MainHActivity.this.finish ();
+                                }
+                        })
+                        .setNegativeButton ("NO", new DialogInterface.OnClickListener () {
+                                public void onClick (DialogInterface dialog, int id) {
+                                        dialog.cancel ();
+                                }
+                        }).show ();
+        }
 
 
 }
