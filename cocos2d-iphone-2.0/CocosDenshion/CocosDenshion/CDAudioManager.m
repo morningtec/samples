@@ -69,8 +69,36 @@ NSString * const kCDN_AudioManagerInitialised = @"kCDN_AudioManagerInitialised";
 		}
 		audioSourceFilePath = [filePath copy];
 		NSError *error = nil;
+
 		NSString *path = [CDUtilities fullPathFromRelativePath:audioSourceFilePath];
+
+#if defined (__STELLA_VERSION_MAX_ALLOWED) && defined (__STELLA_HANDROID2)
+        NSString      * filePath        = path;
+        NSString      * fullFilePath    = [CDUtilities fullPathFromRelativePath: filePath];
+
+        if (![path hasSuffix: @".ogg"] && ![path hasSuffix: @".mp3"] && ![path hasSuffix: @".wav"]) {
+                filePath        = [filePath stringByDeletingPathExtension];
+                filePath        = [filePath stringByAppendingPathExtension: @"ogg"];
+                fullFilePath    = [CDUtilities fullPathFromRelativePath: filePath];
+
+                if ([[NSFileManager defaultManager] fileExistsAtPath:fullFilePath] == NO) {
+                        filePath        = [filePath stringByDeletingPathExtension];
+                        filePath        = [filePath stringByAppendingPathExtension: @"mp3"];
+                        fullFilePath    = [CDUtilities fullPathFromRelativePath: filePath];
+                }
+
+                if ([[NSFileManager defaultManager] fileExistsAtPath:fullFilePath] == NO) {
+                        filePath        = [filePath stringByDeletingPathExtension];
+                        filePath        = [filePath stringByAppendingPathExtension: @"wav"];
+                        fullFilePath    = [CDUtilities fullPathFromRelativePath: filePath];
+                }
+        }
+
+        audioSourcePlayer   =
+        [(AVAudioPlayer *) [AVAudioPlayer alloc] initWithContentsOfURL: [NSURL fileURLWithPath: fullFilePath] error: &error];
+#else
 		audioSourcePlayer = [(AVAudioPlayer*)[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
+#endif
 		if (error == nil) {
 			[audioSourcePlayer prepareToPlay];
 			audioSourcePlayer.delegate = self;

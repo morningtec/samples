@@ -10,7 +10,11 @@
 
 #if CP_USE_CGPOINTS == 1
 	#if TARGET_OS_IPHONE
+    #if defined (__STELLA_VERSION_MAX_ALLOWED)
+    #import <StellaGraphics/SGGeometry.h>
+    #else
 		#import <CoreGraphics/CGGeometry.h>
+    #endif
 	#elif TARGET_OS_MAC
 		#import <ApplicationServices/ApplicationServices.h>
 	#endif
