@@ -82,6 +82,7 @@ public class MainHActivity extends StellaActivity
                 });
         }
 
+
         public static void doBilling ()
         {
                 BillingManager.setBillingInfo (_sharedMainHActivity, "pay_point_1_NAME", "item1");
@@ -105,8 +106,17 @@ public class MainHActivity extends StellaActivity
                 }); 
         }
 
+        public static void backPressed ()
+        {
+            _sharedMainHActivity.runOnUiThread (new Runnable () {
+                    @Override
+                    public void run () {
+                            _sharedMainHActivity._backPressed();
+                    }
+            });
+        }
 
-        public void backButtonPressed ()
+        public void _backPressed ()
         {
                 new AlertDialog.Builder (MainHActivity.this)
                         .setTitle ("StellaSDK Features Demo")

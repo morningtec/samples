@@ -12,6 +12,7 @@
 - (void) sendMessageToJava;
 - (void) callbackMessage: (NSString *) message;
 - (void) doBilling;
+- (void) backButtonPressed;
 
 @end
 
@@ -55,6 +56,21 @@
         }
 
         (*self.env)->CallStaticObjectMethod (self.env, classID_MainHActivity, methodID_doBilling);
+}
+
+- (void) backPressed
+{
+        jclass          classID_MainHActivity       =
+        [self classIDFromName: @"com/yourcompany/features/MainHActivity"];
+
+        jmethodID       methodID                    =
+        (*self.env)->GetStaticMethodID (self.env, classID_MainHActivity, "backPressed", "()V");
+
+        if (! methodID) {
+                NSLog (@"failed to find jmethod: %s", "backPressed");
+        }
+
+        (*self.env)->CallStaticObjectMethod (self.env, classID_MainHActivity, methodID);
 }
 
 @end
@@ -129,6 +145,9 @@ void Java_com_yourcompany_features_MainHActivity_nativeCallbackMessage (JNIEnv *
 {
         AppDelegate       * appDelegate     = (AppDelegate *) [[UIApplication sharedApplication] delegate];
         appDelegate.backKeyLabel.text       = @"BackKey Down!!!";
+
+        /* If You Want Handle The KeyDown Event in the Java, using JNI */
+        [[JNIHelper sharedHelper] backPressed];
 }
 @end
 
